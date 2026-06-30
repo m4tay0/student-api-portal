@@ -8,11 +8,13 @@ const gradesRouter = require('./routes/grades');
 const assignmentsRouter = require('./routes/assignments');
 const announcementsRouter = require('./routes/announcements');
 const submissionsRouter = require('./routes/submissions');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
 app.use(cors({ origin: '*' })); // Allow requests from any origin
 app.use(express.json());
+app.use('/api/auth', authRouter);
 
 app.use('/api/students', studentsRouter);
 app.use('/api/courses', coursesRouter);

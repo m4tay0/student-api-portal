@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model announcements {
@@ -48,14 +49,15 @@ model grades {
 }
 
 model students {
-  id          Int           @id @default(autoincrement())
-  student_no  String?       @unique @db.VarChar(10)
-  first_name  String?       @db.VarChar(50)
-  last_name   String?       @db.VarChar(50)
-  department  String?       @db.VarChar(100)
-  email       String?       @db.VarChar(100)
-  grades      grades[]
-  submissions submissions[]
+  id           Int           @id @default(autoincrement())
+  student_no   String?       @unique @db.VarChar(10)
+  first_name   String?       @db.VarChar(50)
+  last_name    String?       @db.VarChar(50)
+  department   String?       @db.VarChar(100)
+  email        String?       @db.VarChar(100)
+  passwordHash String?       @map("password_hash")
+  grades       grades[]
+  submissions  submissions[]
 }
 
 model submissions {
