@@ -9,6 +9,9 @@ const assignmentsRouter = require('./routes/assignments');
 const announcementsRouter = require('./routes/announcements');
 const submissionsRouter = require('./routes/submissions');
 const authRouter = require('./routes/auth');
+const advisorsRouter = require('./routes/advisors');
+const documentsRouter = require('./routes/documents');
+const notificationsRouter = require('./routes/notifications');
 
 const app = express();
 
@@ -22,6 +25,9 @@ app.use('/api/grades', gradesRouter);
 app.use('/api/assignments', assignmentsRouter);
 app.use('/api/announcements', announcementsRouter);
 app.use('/api/submissions', submissionsRouter);
+app.use('/api/advisors', advisorsRouter);
+app.use('/api/documents', documentsRouter);
+app.use('/api/notifications', notificationsRouter);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Student Portal API is running' });

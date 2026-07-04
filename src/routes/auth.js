@@ -106,6 +106,33 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Step 3 - Change password
+router.post('/change-password', async (req, res) => {
+  try {
+    const { studentId, oldPassword, newPassword } = req.body;
+    const student = await prisma.students.findUnique({ where: { id: parseInt(studentId) } });
+
+    if (!student || !student.passwordHash) {
+      return res.status(404).json({ error: 'Öğrenci bulunamadı.' });
+    }
+
+    const isValid = await bcrypt.compare(oldPassword, student.passwordHash);
+    if (!isValid) {
+      return res.status(401).json({ error: 'Mevcut şifreniz hatalı.' });
+    }
+
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    await prisma.students.update({
+      where: { id: student.id },
+      data: { passwordHash: newPasswordHash }
+    });
+
+    res.json({ success: true, message: 'Şifreniz başarıyla güncellendi.' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.post('/test-hash', async (req, res) => {
   const { password, hash } = req.body;
   const result = await bcrypt.compare(password, hash);
